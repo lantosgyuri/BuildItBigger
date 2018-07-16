@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Build It Bigger</string>
+    <string name="main_instruction_text">Push the button and get a joke</string>
+    <string name="main_button_text">PUSH ME</string>
+    <string name="ad_unit_id">ca-app-pub-9586660784196637/5209364779</string>
+</resources>
