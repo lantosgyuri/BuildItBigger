@@ -33,5 +33,4 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
     implementation project(':javajokes')
     implementation project(':showjoke')
-    implementation project(path: ':backend', configuration: 'android-endpoints')
 }
