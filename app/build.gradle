@@ -1,4 +1,18 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        // Endpoints Frameworks Gradle plugin
+        classpath 'com.google.cloud.tools:endpoints-framework-gradle-plugin:2.0.0'
+    }
+}
+
+
+
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.cloud.tools.endpoints-framework-client'
 
 android {
     compileSdkVersion 27
@@ -30,7 +44,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
+
+    implementation 'com.google.api-client:google-api-client:1.23.0'
+    implementation 'com.google.http-client:google-http-client-android:1.23.0'
+    implementation 'com.google.code.findbugs:jsr305:3.0.1'
+
+    endpointsServer project(path: ':backend', configuration: 'endpoints')
+
     implementation project(':javajokes')
     implementation project(':showjoke')
 }

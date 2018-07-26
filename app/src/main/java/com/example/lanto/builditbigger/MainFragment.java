@@ -1,5 +1,6 @@
 package com.example.lanto.builditbigger;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,17 +32,12 @@ public class MainFragment extends Fragment {
                 .build();
         mAdView.loadAd(adRequest);
 
-        // jokes java library
-        final Jokes jokeMaker = new Jokes();
-
         Button button = rootView.findViewById(R.id.main_button_id);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ShowJokeActivity.class);
-                intent.putExtra("joke", jokeMaker.getJoke());
-                startActivity(intent);
+                new GetJokeAsync().execute(getActivity());
             }
         });
 
