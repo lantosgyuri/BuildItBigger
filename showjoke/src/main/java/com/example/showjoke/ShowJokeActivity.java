@@ -14,6 +14,7 @@ public class ShowJokeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showjoke);
+        setTitle(getString(R.string.show_joke_activity_title));
 
         Intent intent = getIntent();
         if(intent != null) joke = intent.getStringExtra("joke");

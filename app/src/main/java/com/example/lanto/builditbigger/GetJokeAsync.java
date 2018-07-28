@@ -14,16 +14,18 @@ import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
 
 import java.io.IOException;
 
-public class GetJokeAsync extends AsyncTask<Context, Void, String> {
+public class GetJokeAsync extends AsyncTask<Void, Void, String> {
 
     private static MyApi myApiService = null;
     private Context mContext;
 
+    public GetJokeAsync(Context context) {
+        mContext = context;
+    }
+
     @Override
-    protected String doInBackground(Context... contexts) {
-        Log.e("In async", "kezdodik");
+    protected String doInBackground(Void... voids) {
         if(myApiService == null) {  // Only do this once
-            Log.e("In async", "api build");
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
                     // options for running against local devappserver
@@ -38,8 +40,6 @@ public class GetJokeAsync extends AsyncTask<Context, Void, String> {
                     });
             // end options for devappserver
             myApiService = builder.build();
-            mContext = contexts[0];
-            Log.e("In async", "api uil kesz");
         }
 
         try {
@@ -47,14 +47,5 @@ public class GetJokeAsync extends AsyncTask<Context, Void, String> {
         } catch (IOException e) {
             return e.getMessage();
         }
-    }
-
-    @Override
-    protected void onPostExecute(String result) {
-        Log.e("In async", "onPost Execute");
-        Intent intent = new Intent(mContext, ShowJokeActivity.class);
-        intent.putExtra("joke", result);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.getApplicationContext().startActivity(intent);
     }
 }
