@@ -3,6 +3,8 @@ package com.example.lanto.builditbigger;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.lanto.builditbigger.paid.MainFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

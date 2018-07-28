@@ -1,11 +1,7 @@
 package com.example.lanto.builditbigger;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.example.showjoke.ShowJokeActivity;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -17,11 +13,6 @@ import java.io.IOException;
 public class GetJokeAsync extends AsyncTask<Void, Void, String> {
 
     private static MyApi myApiService = null;
-    private Context mContext;
-
-    public GetJokeAsync(Context context) {
-        mContext = context;
-    }
 
     @Override
     protected String doInBackground(Void... voids) {

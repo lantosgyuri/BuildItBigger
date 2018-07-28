@@ -7,8 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.concurrent.ExecutionException;
-
-import static android.support.test.InstrumentationRegistry.getContext;
 import static junit.framework.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
@@ -20,7 +18,7 @@ public class AsyncTaskTest {
     public void test(){
         String result = null;
 
-        GetJokeAsync async = new GetJokeAsync(getContext());
+        GetJokeAsync async = new GetJokeAsync();
         async.execute();
 
         try {
