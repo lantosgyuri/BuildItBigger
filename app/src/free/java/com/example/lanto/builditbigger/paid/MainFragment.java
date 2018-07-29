@@ -104,6 +104,7 @@ public class MainFragment extends Fragment {
         });
     }
 
+    //set spinner visibility invisible on onResume
     @Override
     public void onResume() {
         super.onResume();
