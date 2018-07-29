@@ -36,7 +36,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        getActivity().setTitle("Paid Version");
+        getActivity().setTitle(getString(R.string.paid_version_title));
 
 
         spinner = rootView.findViewById(R.id.progressBar1);
@@ -63,6 +63,14 @@ public class MainFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(spinner.getVisibility() == View.VISIBLE){
+            spinner.setVisibility(View.INVISIBLE);
+        }
     }
 
 }
