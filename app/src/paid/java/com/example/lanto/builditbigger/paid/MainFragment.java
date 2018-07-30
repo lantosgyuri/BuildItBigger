@@ -15,8 +15,8 @@ import android.widget.ProgressBar;
 import com.example.lanto.builditbigger.GetJokeAsync;
 import com.example.lanto.builditbigger.R;
 import com.example.showjoke.ShowJokeActivity;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+
+import static com.example.showjoke.ShowJokeActivity.KEY_JOKE;
 
 
 /**
@@ -53,7 +53,7 @@ public class MainFragment extends Fragment {
                     protected void onPostExecute(String result) {
                         Log.e("In async", "onPost Execute: " + result);
                         Intent intent = new Intent(getActivity(), ShowJokeActivity.class);
-                        intent.putExtra("joke", result);
+                        intent.putExtra(KEY_JOKE, result);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         getActivity().startActivity(intent);
                     }

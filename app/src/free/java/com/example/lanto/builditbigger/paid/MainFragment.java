@@ -22,6 +22,8 @@ import com.google.android.gms.ads.AdView;
 
 import com.google.android.gms.ads.InterstitialAd;
 
+import static com.example.showjoke.ShowJokeActivity.KEY_JOKE;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,7 +77,7 @@ public class MainFragment extends Fragment {
             protected void onPostExecute(String result) {
                 Log.e("In async", "onPost Execute: " + result);
                 Intent intent = new Intent(getActivity(), ShowJokeActivity.class);
-                intent.putExtra("joke", result);
+                intent.putExtra(KEY_JOKE, result);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().startActivity(intent);
             }

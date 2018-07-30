@@ -16,6 +16,37 @@ buildscript {
     }
 }
 
+task optionalTest {
+    group 'series'
+    description 'Complete tasks in series'
+    dependsOn 'runAppEngine'
+    dependsOn 'runConnectedTest'
+    dependsOn 'stopAppEngine'
+    doLast {
+        println 'task completed'
+    }
+}
+
+task runAppEngine {
+    doLast{
+        ":backend:appengineRun"
+    }
+}
+
+task runConnectedTest{
+    mustRunAfter 'runAppEngine'
+    doLast{
+        ":app:connectedAndroidTest"
+    }
+}
+
+task stopAppEngine{
+    mustRunAfter 'runConnectedTest'
+    doLast{
+        ':backend:appengineStop'
+    }
+}
+
 allprojects {
     repositories {
         google()
