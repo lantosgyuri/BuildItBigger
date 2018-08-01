@@ -2,5 +2,4 @@
     <string name="app_name">Build It Bigger</string>
     <string name="main_instruction_text">Push the button and get a joke</string>
     <string name="main_button_text">PUSH ME</string>
-    <string name="load_joke_toast">Please wait we load your Joke</string>
 </resources>
