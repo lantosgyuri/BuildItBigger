@@ -28,7 +28,7 @@ import static com.example.showjoke.ShowJokeActivity.KEY_JOKE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements GetJokeAsync.getJOkeAsyncCallback {
 
     private ProgressBar spinner;
     private InterstitialAd mInterstitialAd;
@@ -63,7 +63,7 @@ public class MainFragment extends Fragment {
             @SuppressLint("StaticFieldLeak")
             public void onClick(View v) {
                 spinner.setVisibility(View.VISIBLE);
-                loadInterstitialAdd();
+                getJoke();
 
         }});
 
@@ -71,22 +71,16 @@ public class MainFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void showJoke(){
-        new GetJokeAsync() {
-            @Override
-            protected void onPostExecute(String result) {
-                Log.e("In async", "onPost Execute: " + result);
-                Intent intent = new Intent(getActivity(), ShowJokeActivity.class);
-                intent.putExtra(KEY_JOKE, result);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getActivity().startActivity(intent);
-            }
-        }.execute();
-
+    private void getJoke(){
+        GetJokeAsync getJokeAsync = new GetJokeAsync();
+        getJokeAsync.setCallback(this);
+        getJokeAsync.execute();
     }
 
+
+
     //initialize interstitial add
-    public void loadInterstitialAdd(){
+    public void loadInterstitialAdd(final String result){
         mInterstitialAd = new InterstitialAd(getActivity());
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
@@ -95,23 +89,31 @@ public class MainFragment extends Fragment {
             @Override
             public void onAdLoaded() {
                 mInterstitialAd.show();
-                showJoke();
             }
 
             @Override
             public void onAdClosed() {
-                Toast.makeText(getActivity(), R.string.load_joke_toast, Toast.LENGTH_LONG).show();
-                showJoke();
+                showJoke(result);
             }
         });
     }
 
-    //set spinner visibility invisible on onResume
+    //if joke can not load, just show a toast
     @Override
-    public void onResume() {
-        super.onResume();
-        if(spinner.getVisibility() == View.VISIBLE){
-            spinner.setVisibility(View.INVISIBLE);
+    public void jokeDone(String result, boolean failedToLoad) {
+        //joke loaded spinner not needed anyomre
+        spinner.setVisibility(View.INVISIBLE);
+        if(failedToLoad) {
+            Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+        } else {
+            loadInterstitialAdd(result);
         }
+    }
+
+    private void showJoke(String result){
+        Intent intent = new Intent(getActivity(), ShowJokeActivity.class);
+        intent.putExtra(KEY_JOKE, result);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getActivity().startActivity(intent);
     }
 }

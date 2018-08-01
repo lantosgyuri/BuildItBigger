@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.lanto.builditbigger.GetJokeAsync;
 import com.example.lanto.builditbigger.R;
@@ -22,7 +23,7 @@ import static com.example.showjoke.ShowJokeActivity.KEY_JOKE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements GetJokeAsync.getJOkeAsyncCallback {
 
     private ProgressBar spinner;
 
@@ -48,29 +49,30 @@ public class MainFragment extends Fragment {
             @SuppressLint("StaticFieldLeak")
             public void onClick(View v) {
                 spinner.setVisibility(View.VISIBLE);
-                new GetJokeAsync(){
+
+                //set up Joke Async
+                GetJokeAsync async = new GetJokeAsync();
+                async.setCallback(new GetJokeAsync.getJOkeAsyncCallback() {
                     @Override
-                    protected void onPostExecute(String result) {
-                        Log.e("In async", "onPost Execute: " + result);
-                        Intent intent = new Intent(getActivity(), ShowJokeActivity.class);
-                        intent.putExtra(KEY_JOKE, result);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        getActivity().startActivity(intent);
+                    public void jokeDone(String result, boolean failedToLoad) {
+                        //the load is ready-> spinner not needed anymore
+                        spinner.setVisibility(View.INVISIBLE);
+
+                        if(failedToLoad){
+                            Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+                        }else{
+                            Intent intent = new Intent(getActivity(), ShowJokeActivity.class);
+                            intent.putExtra(KEY_JOKE, result);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            getActivity().startActivity(intent);
+                        }
                     }
-                }.execute();
+                });
+                async.execute();
 
             }
         });
 
         return rootView;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(spinner.getVisibility() == View.VISIBLE){
-            spinner.setVisibility(View.INVISIBLE);
-        }
-    }
-
 }

@@ -13,6 +13,16 @@ import java.io.IOException;
 public class GetJokeAsync extends AsyncTask<Void, Void, String> {
 
     private static MyApi myApiService = null;
+    private getJOkeAsyncCallback mCallback;
+    private boolean failedToLoad = false;
+
+    public interface getJOkeAsyncCallback{
+        void jokeDone (String result, boolean failedToLoad);
+    }
+
+    public void setCallback(getJOkeAsyncCallback callback){
+        mCallback = callback;
+    }
 
     @Override
     protected String doInBackground(Void... voids) {
@@ -36,7 +46,15 @@ public class GetJokeAsync extends AsyncTask<Void, Void, String> {
         try {
             return myApiService.getJoke().execute().getData();
         } catch (IOException e) {
+            failedToLoad = false;
             return e.getMessage();
+        }
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        if(mCallback != null){
+            mCallback.jokeDone(result, failedToLoad);
         }
     }
 }
